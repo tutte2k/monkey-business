@@ -1,16 +1,19 @@
 export const STATE = {
   HANGING_IDLE: "HANGING_IDLE",
   HANGING_THROW: "HANGING_THROW",
+  FALL: "FALL",
 };
 
 export const STATEFRAMES = {
   HANGING_IDLE: getFrames("__monkey_onbranch_idle_", 20),
   HANGING_THROW: getFrames("__monkey_onbranch_throw_", 10),
+  FALL: getFrames("__monkey_onbranch_fall_", 20),
 };
 
 export const STATEFRAMESCOUNT = {
   HANGING_IDLE: STATEFRAMES.HANGING_IDLE.length,
   HANGING_THROW: STATEFRAMES.HANGING_THROW.length,
+  FALL: STATEFRAMES.FALL.length,
 };
 
 function getFrames(state, frameCount) {

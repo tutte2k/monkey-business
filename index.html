@@ -7,86 +7,76 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <canvas id="myCanvas"></canvas>
-    <div id="nav" class="navbar">
-      <a class="monkey-target" href="#home" onclick="setActive('home')">Home</a>
-      <a class="monkey-target" href="#services" onclick="setActive('services')"
-        >Services</a
-      >
-      <a class="monkey-target" href="#about" onclick="setActive('about')"
-        >About</a
-      >
-      <a class="monkey-target" href="#contact" onclick="setActive('contact')"
-        >Contact</a
-      >
-    </div>
-    <div class="sidebar" id="sidebar">
-      <!-- Sidebar content will be injected here based on the active navbar item -->
-    </div>
-    <div class="content">
-      <h2 class="monkey-target" id="home1">Welcome to the Home Page</h2>
-      <p class="monkey-target" id="home2">
-        This is some monkey-target content for the home page.
-      </p>
-      <h2 class="monkey-target" id="services1">Our Services</h2>
-      <p class="monkey-target" id="services2">
-        This is some monkey-target content about our services.
-      </p>
-      <h2 class="monkey-target" id="about1">About Us</h2>
-      <p class="monkey-target" id="about2">
-        This is some monkey-target content about us.
-      </p>
-      <h2 class="monkey-target" id="contact1">Contact Us</h2>
-      <p class="monkey-target" id="contact2">
-        This is some monkey-target content for contacting us.
-      </p>
-      <div id="div1" class="element" style="top: 100px; left: 100px"></div>
-      <div id="div2" class="element" style="top: 200px; left: 200px"></div>
-      <div id="div3" class="element" style="top: 300px; left: 300px"></div>
-      <div id="div4" class="element" style="top: 400px; left: 400px"></div>
-      <div id="div5" class="element" style="top: 500px; left: 500px"></div>
-      <div id="div6" class="element" style="top: 600px; left: 600px"></div>
-    </div>
-
+    <main>
+      <div id="nav" class="navbar">
+        <a href="#home" onclick="setActive('home')">Home</a>
+        <a href="#services" onclick="setActive('services')">Services</a>
+        <a href="#about" onclick="setActive('about')">About</a>
+        <a href="#contact" onclick="setActive('contact')">Contact</a>
+      </div>
+      <div class="sidebar" id="sidebar">
+        <!-- Sidebar content will be injected here based on the active navbar item -->
+      </div>
+      <div class="content" id="content">
+        <!--  Content will be injected here based on the active sidebar item -->
+        <!-- script-->
+      </div>
+    </main>
+    <div class="branch" style="top: 100px"></div>
+    <div class="branch" style="top: 200px"></div>
+    <div class="branch" style="top: 300px"></div>
+    <div class="branch" style="top: 400px"></div>
+    <div class="branch" style="top: 500px"></div>
+    <div class="branch" style="top: 600px"></div>
+    <div class="branch" style="top: 700px"></div>
+    <div class="branch" style="top: 800px"></div>
     <div class="agent" id="agentDiv"></div>
+    <style id="component-styles"></style>
+    <canvas id="myCanvas"></canvas>
     <script>
-      function setActive(section) {
+      const domParser = new DOMParser();
+      let run;
+
+      async function setActive(section) {
         document
           .querySelectorAll(".navbar a")
           .forEach((a) => a.classList.remove("active"));
         document
           .querySelector(`.navbar a[href="#${section}"]`)
           .classList.add("active");
-        const sidebarContent = {
-          home: `
-                <h3 class="monkey-target">Home</h3>
-                <a class="monkey-target" href="#home1">Home Subitem 1</a>
-                <a class="monkey-target" href="#home2">Home Subitem 2</a>
-            `,
-          services: `
-                <h3 class="monkey-target">Services</h3>
-                <a class="monkey-target" href="#services1">Service Subitem 1</a>
-                <a class="monkey-target" href="#services2">Service Subitem 2</a>
-            `,
-          about: `
-                <h3 class="monkey-target">About</h3>
-                <a class="monkey-target" href="#about1">About Subitem 1</a>
-                <a class="monkey-target" href="#about2">About Subitem 2</a>
-            `,
-          contact: `
-                <h3 class="monkey-target">Contact</h3>
-                <a class="monkey-target" href="#contact1">Contact Subitem 1</a>
-                <a class="monkey-target" href="#contact2">Contact Subitem 2</a>
-            `,
-        };
-        document.getElementById("sidebar").innerHTML = sidebarContent[section];
+
+        const component = await fetch(`/xpontents/${section}/${section}.html`);
+        const [styles, sidebar, content, script] = (
+          await component.text()
+        ).split("&brvbar;");
+
+        const doc = domParser.parseFromString(styles, "text/html");
+        const componentStyles = doc.getElementById("component-styles");
+        document.getElementById("component-styles").remove();
+        document.body.appendChild(componentStyles);
+
+        const parsed = script.replace("<script>", "").replace("<\/script>", "");
+        const scr = document.createElement("script");
+        scr.id = "component-script";
+        scr.textContent = parsed;
+
+        document.getElementById("sidebar").innerHTML = sidebar;
+        const contentArea = document.getElementById("content");
+
+        contentArea.innerHTML = content;
+        document.getElementById("component-script")?.remove();
+        document.body.appendChild(componentStyles);
+        contentArea.appendChild(scr);
+
+        run();
       }
       setActive("home");
     </script>
-
     <script type="module">
       import { Agent } from "./src/agent.js";
-      const targets = [...document.querySelectorAll(".monkey-target")];
+      const targets = [...document.querySelectorAll("main *")].sort(
+        () => Math.random() - 0.5
+      );
       let currentIndex = 0;
       const agent = new Agent(agentDiv, targets);
     </script>

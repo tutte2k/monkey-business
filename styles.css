@@ -1,7 +1,11 @@
+* {
+  /* border: 1px blueviolet dashed !important; */
+}
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   position: relative;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
@@ -61,7 +65,7 @@ body {
   overflow-y: auto;
 }
 
-.hidden {
+.monkey-target {
   border: 0px dashed red;
   padding: 10px;
   margin-bottom: 20px;
@@ -98,6 +102,7 @@ body {
 
   display: flex;
   flex-wrap: wrap;
+
   background-image: url("./assets/_HTTP410.webp");
   background-repeat: no-repeat;
   background-size: cover;
@@ -108,21 +113,34 @@ body {
   opacity: 1;
   box-sizing: border-box;
 }
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
 
-@keyframes spin {
+@keyframes spin1 {
   0% {
     transform: rotate(0deg);
   }
   100% {
     transform: rotate(360deg);
   }
+}
+@keyframes spin0 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+#myCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none; /* Make sure the canvas doesn't block interactions */
+  z-index: 8;
+}
+.element {
+  width: 50px;
+  height: 50px;
+  background-color: lightblue;
+  margin: 20px;
+  position: absolute;
 }

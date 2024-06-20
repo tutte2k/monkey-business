@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="navbar">
-      <a class="hidden" href="#home" onclick="setActive('home')">Home</a>
-      <a class="hidden" href="#services" onclick="setActive('services')"
+    <canvas id="myCanvas"></canvas>
+    <div id="nav" class="navbar">
+      <a class="monkey-target" href="#home" onclick="setActive('home')">Home</a>
+      <a class="monkey-target" href="#services" onclick="setActive('services')"
         >Services</a
       >
-      <a class="hidden" href="#about" onclick="setActive('about')">About</a>
-      <a class="hidden" href="#contact" onclick="setActive('contact')"
+      <a class="monkey-target" href="#about" onclick="setActive('about')"
+        >About</a
+      >
+      <a class="monkey-target" href="#contact" onclick="setActive('contact')"
         >Contact</a
       >
     </div>
@@ -21,20 +24,28 @@
       <!-- Sidebar content will be injected here based on the active navbar item -->
     </div>
     <div class="content">
-      <h2 class="hidden" id="home1">Welcome to the Home Page</h2>
-      <p class="hidden" id="home2">
-        This is some hidden content for the home page.
+      <h2 class="monkey-target" id="home1">Welcome to the Home Page</h2>
+      <p class="monkey-target" id="home2">
+        This is some monkey-target content for the home page.
       </p>
-      <h2 class="hidden" id="services1">Our Services</h2>
-      <p class="hidden" id="services2">
-        This is some hidden content about our services.
+      <h2 class="monkey-target" id="services1">Our Services</h2>
+      <p class="monkey-target" id="services2">
+        This is some monkey-target content about our services.
       </p>
-      <h2 class="hidden" id="about1">About Us</h2>
-      <p class="hidden" id="about2">This is some hidden content about us.</p>
-      <h2 class="hidden" id="contact1">Contact Us</h2>
-      <p class="hidden" id="contact2">
-        This is some hidden content for contacting us.
+      <h2 class="monkey-target" id="about1">About Us</h2>
+      <p class="monkey-target" id="about2">
+        This is some monkey-target content about us.
       </p>
+      <h2 class="monkey-target" id="contact1">Contact Us</h2>
+      <p class="monkey-target" id="contact2">
+        This is some monkey-target content for contacting us.
+      </p>
+      <div id="div1" class="element" style="top: 100px; left: 100px"></div>
+      <div id="div2" class="element" style="top: 200px; left: 200px"></div>
+      <div id="div3" class="element" style="top: 300px; left: 300px"></div>
+      <div id="div4" class="element" style="top: 400px; left: 400px"></div>
+      <div id="div5" class="element" style="top: 500px; left: 500px"></div>
+      <div id="div6" class="element" style="top: 600px; left: 600px"></div>
     </div>
 
     <div class="agent" id="agentDiv"></div>
@@ -46,41 +57,37 @@
         document
           .querySelector(`.navbar a[href="#${section}"]`)
           .classList.add("active");
-
         const sidebarContent = {
           home: `
-                <h3 class="hidden">Home</h3>
-                <a class="hidden" href="#home1">Home Subitem 1</a>
-                <a class="hidden" href="#home2">Home Subitem 2</a>
+                <h3 class="monkey-target">Home</h3>
+                <a class="monkey-target" href="#home1">Home Subitem 1</a>
+                <a class="monkey-target" href="#home2">Home Subitem 2</a>
             `,
           services: `
-                <h3 class="hidden">Services</h3>
-                <a class="hidden" href="#services1">Service Subitem 1</a>
-                <a class="hidden" href="#services2">Service Subitem 2</a>
+                <h3 class="monkey-target">Services</h3>
+                <a class="monkey-target" href="#services1">Service Subitem 1</a>
+                <a class="monkey-target" href="#services2">Service Subitem 2</a>
             `,
           about: `
-                <h3 class="hidden">About</h3>
-                <a class="hidden" href="#about1">About Subitem 1</a>
-                <a class="hidden" href="#about2">About Subitem 2</a>
+                <h3 class="monkey-target">About</h3>
+                <a class="monkey-target" href="#about1">About Subitem 1</a>
+                <a class="monkey-target" href="#about2">About Subitem 2</a>
             `,
           contact: `
-                <h3 class="hidden">Contact</h3>
-                <a class="hidden" href="#contact1">Contact Subitem 1</a>
-                <a class="hidden" href="#contact2">Contact Subitem 2</a>
+                <h3 class="monkey-target">Contact</h3>
+                <a class="monkey-target" href="#contact1">Contact Subitem 1</a>
+                <a class="monkey-target" href="#contact2">Contact Subitem 2</a>
             `,
         };
-
         document.getElementById("sidebar").innerHTML = sidebarContent[section];
       }
-
       setActive("home");
     </script>
+
     <script type="module">
-      import { Agent } from "./agent.js";
-
-      const targets = [...document.querySelectorAll(".hidden")];
+      import { Agent } from "./src/agent.js";
+      const targets = [...document.querySelectorAll(".monkey-target")];
       let currentIndex = 0;
-
       const agent = new Agent(agentDiv, targets);
     </script>
   </body>

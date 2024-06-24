@@ -25,13 +25,13 @@ export class Agent {
     this.currentIndex = 0;
 
     this.#moveAlongBorders();
-    setTimeout(() => this.#shootBullet(), 2000);
+    // setTimeout(() => this.#shootBullet(), 2000);
   }
 
   #moveAlongBorders() {
     const boundaries = [...document.querySelectorAll("body *")];
     [1, 2, 3, 4, 5, 6].forEach((removeScriptTags) => boundaries.pop());
-    console.log("Boundaries:", boundaries);
+    // console.log("Boundaries:", boundaries);
 
     const elements = boundaries;
     const targetElement = elements[Math.floor(Math.random() * elements.length)];
@@ -39,18 +39,18 @@ export class Agent {
       return;
     }
     const targetLoc = this.#getCoords(targetElement);
-    console.log("Target Location:", targetLoc);
+    // console.log("Target Location:", targetLoc);
 
     const agentLoc = this.#getCoords(this.el);
-    console.log("Agent Location:", agentLoc);
+    // console.log("Agent Location:", agentLoc);
 
     const borders = this.#getElementBorders(elements);
-    console.log("Borders:", borders);
+    // console.log("Borders:", borders);
 
     const pathPoints = this.pathFinder.findPath(borders, agentLoc, targetLoc);
-    console.log("Path Points on Borders:", pathPoints);
+    // console.log("Path Points on Borders:", pathPoints);
 
-    console.log("Starting movement along the path");
+    // console.log("Starting movement along the path");
     let posX = agentLoc.x;
     let posY = agentLoc.y;
     let currentIndex = 0;
@@ -123,7 +123,7 @@ export class Agent {
         );
       }, 300);
     } else {
-      console.log("All elements are now visible.");
+      // console.log("All elements are now visible.");
     }
   }
   #onBulletHitTarget(banana, target) {

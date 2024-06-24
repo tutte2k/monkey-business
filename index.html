@@ -46,7 +46,7 @@
           .forEach((a) => a.classList.remove("active"));
         document.getElementById(`${section}`).classList.add("active");
 
-        const component = await fetch(`/xpontents/${section}/${section}.html`);
+        const component = await fetch(`./xpontents/${section}/${section}.html`);
         const [styles, sidebar, content, script] = (
           await component.text()
         ).split("&brvbar;");

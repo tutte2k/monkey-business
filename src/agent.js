@@ -25,7 +25,7 @@ export class Agent {
     this.currentIndex = 0;
 
     this.#moveAlongBorders();
-    // setTimeout(() => this.#shootBullet(), 2000);
+    setTimeout(() => this.#shootBullet(), 2000);
   }
 
   #moveAlongBorders() {

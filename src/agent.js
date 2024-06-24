@@ -19,8 +19,8 @@ export class Agent {
 
     this.pathFinder = new Pathfinder();
 
-    this.throwSpeed = 2000;
-    this.moveSpeed = 3;
+    this.throwSpeed = 5000;
+    this.moveSpeed = 1;
 
     this.currentIndex = 0;
 
@@ -127,6 +127,8 @@ export class Agent {
     }
   }
   #onBulletHitTarget(banana, target) {
+    this.#displayMessage(target);
+
     banana.remove();
     target.remove();
     this.currentIndex++;
@@ -135,6 +137,28 @@ export class Agent {
     } else {
       setTimeout(() => this.#startFinalAttack(), 20);
     }
+  }
+
+  #displayMessage(target) {
+    const agentRect = this.el.getBoundingClientRect();
+
+    const emojis = ["🐵", "🙊", "🙉", "🙈"];
+    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+    const message = document.createElement("p");
+    message.innerHTML = `smash ${target.nodeName} ${target.id} ${randomEmoji}`;
+
+    message.className = "message";
+    message.style.fontFamily = "comic sans MS";
+
+    const cloud = document.createElement("div");
+    cloud.style.left = `${agentRect.left + agentRect.width / 2}px`;
+    cloud.style.top = `${agentRect.top}px`;
+    cloud.classList.add("cloud");
+    cloud.appendChild(message);
+
+    document.body.appendChild(cloud);
+    setTimeout(() => cloud.remove(), 1000);
   }
 
   #startFinalAttack() {

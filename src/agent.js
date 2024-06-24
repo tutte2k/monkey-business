@@ -19,13 +19,21 @@ export class Agent {
 
     this.pathFinder = new Pathfinder();
 
-    this.throwSpeed = 5000;
-    this.moveSpeed = 1;
+    this.throwSpeed = 1500;
+    this.moveSpeed = 2;
 
     this.currentIndex = 0;
 
     this.#moveAlongBorders();
-    setTimeout(() => this.#shootBullet(), 2000);
+
+    const clickListener = () => {
+      this.#displayMessage({});
+      setTimeout(() => {
+        this.#shootBullet();
+      }, 2000);
+      window.removeEventListener("click", clickListener);
+    };
+    window.addEventListener("click", clickListener);
   }
 
   #moveAlongBorders() {
@@ -111,8 +119,10 @@ export class Agent {
   #shootBullet() {
     if (this.currentIndex < this.targets.length) {
       this.sprite.updateStateTemporarily(STATE.HANGING_THROW);
+
       setTimeout(() => {
         const target = this.targets[this.currentIndex];
+        this.#displayMessage(target);
         target.style.borderWidth = "2px";
         const agentRect = this.el.getBoundingClientRect();
         const banana = this.#createBullet(agentRect);
@@ -127,8 +137,6 @@ export class Agent {
     }
   }
   #onBulletHitTarget(banana, target) {
-    this.#displayMessage(target);
-
     banana.remove();
     target.remove();
     this.currentIndex++;
@@ -146,7 +154,9 @@ export class Agent {
     const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
 
     const message = document.createElement("p");
-    message.innerHTML = `smash ${target.nodeName} ${target.id} ${randomEmoji}`;
+    message.innerHTML = `smash ${target.nodeName ?? ""} ${
+      target.id ?? ""
+    } ${randomEmoji}`;
 
     message.className = "message";
     message.style.fontFamily = "comic sans MS";
@@ -158,10 +168,11 @@ export class Agent {
     cloud.appendChild(message);
 
     document.body.appendChild(cloud);
-    setTimeout(() => cloud.remove(), 1000);
+    setTimeout(() => cloud.remove(), 500);
   }
 
   #startFinalAttack() {
+    this.#displayMessage({});
     this.sprite.updateStateTemporarily(STATE.HANGING_THROW);
     const agentRect = this.el.getBoundingClientRect();
     const banana = this.#createBullet(agentRect);

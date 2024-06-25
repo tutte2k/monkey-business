@@ -14,7 +14,6 @@ export class Agent {
 
     this.sprite = new Sprite(el, STATE.HANGING_IDLE);
 
-    this.dragged = false;
     new DragHandler(el, this);
 
     this.pathFinder = new Pathfinder();
@@ -27,16 +26,25 @@ export class Agent {
     this.#moveAlongBorders();
 
     const clickListener = () => {
-      this.#displayMessage({});
-      setTimeout(() => {
-        this.#shootBullet();
-      }, 2000);
+      this.#smash();
       window.removeEventListener("click", clickListener);
     };
     window.addEventListener("click", clickListener);
     this.el.addEventListener("click", () => {
-      this.clicked = true;
+      this.clicked = !this.clicked;
+      if (!this.clicked) {
+        this.#smash();
+        this.dragged = false;
+        this.#moveAlongBorders();
+      }
     });
+  }
+
+  #smash() {
+    this.#displayMessage({});
+    setTimeout(() => {
+      this.#shootBullet();
+    }, 2000);
   }
 
   #moveAlongBorders() {

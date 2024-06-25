@@ -37,7 +37,7 @@ body {
   display: flex;
   flex-wrap: wrap;
 
-  background-image: url("./assets/_HTTP410.webp");
+  background-image: url("./killswitch/_HTTP410.webp");
   background-repeat: no-repeat;
   background-size: cover;
 }

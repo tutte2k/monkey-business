@@ -27,7 +27,7 @@
 .banana {
   width: 20px;
   height: 20px;
-  background-image: url("./assets/banana_ammo.png");
+  background-image: url("./sprites/banana_ammo.png");
   background-repeat: no-repeat;
   background-size: contain;
   position: absolute;

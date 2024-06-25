@@ -31,7 +31,6 @@
     <div class="branch" style="top: 600px"></div>
     <div class="branch" style="top: 700px"></div>
     <div class="branch" style="top: 800px"></div>
-    <div class="agent" id="agentDiv"></div>
 
     <canvas id="myCanvas"></canvas>
 
@@ -43,7 +42,8 @@
       });
     </script>
     <!-- agent -->
-    <link rel="stylesheet" href="/src/agent/agent.css" />
+    <div class="agent" id="agentDiv"></div>
+    <link rel="stylesheet" href="./src/agent/agent.css" />
     <script type="module">
       import { Agent } from "./src/agent/agent.js";
       const targets = [...document.querySelectorAll("main *")].sort(

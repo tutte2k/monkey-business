@@ -1,4 +1,4 @@
-import { Debugger } from "./common/debugger.js";
+import { Debugger } from "./debugger.js";
 
 export class Pathfinder {
   constructor() {

@@ -1,8 +1,8 @@
-import { STATE } from "../common/utils.js";
-import { DragHandler } from "../draghandler.js";
-import { KillSwitch } from "../killswitch.js";
-import { Pathfinder } from "../pathfinder.js";
-import { Sprite } from "../sprite.js";
+import { KillSwitch } from "../killswitch/killswitch.js";
+import { DragHandler } from "./draghandler.js";
+import { Pathfinder } from "./pathfinder.js";
+import { Sprite } from "./sprite.js";
+import { STATE } from "./utils.js";
 
 export class Agent {
   constructor(el, targets) {

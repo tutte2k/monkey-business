@@ -1,4 +1,4 @@
-import { STATEFRAMES, STATEFRAMESCOUNT } from "./common/utils.js";
+import { STATEFRAMES, STATEFRAMESCOUNT } from "./utils.js";
 export class Sprite {
   constructor(elementRef, state) {
     this.elementRef = elementRef;

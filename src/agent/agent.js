@@ -33,7 +33,10 @@ export class Agent {
       }, 2000);
       window.removeEventListener("click", clickListener);
     };
-    // window.addEventListener("click", clickListener);
+    window.addEventListener("click", clickListener);
+    this.el.addEventListener("click", () => {
+      this.clicked = true;
+    });
   }
 
   #moveAlongBorders() {
@@ -117,6 +120,7 @@ export class Agent {
   }
 
   #shootBullet() {
+    if (this.clicked) throw new Error("monkey sad");
     if (this.currentIndex < this.targets.length) {
       this.sprite.updateStateTemporarily(STATE.HANGING_THROW);
 

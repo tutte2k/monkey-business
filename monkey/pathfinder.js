@@ -21,10 +21,10 @@ export class Pathfinder {
 
       borders.forEach((border) => {
         const pointsOnBorder = [
-          { x: border.left, y: point.y }, // left border
-          { x: border.right, y: point.y }, // right border
-          { x: point.x, y: border.top }, // top border
-          { x: point.x, y: border.bottom }, // bottom border
+          { x: border.left, y: point.y },
+          { x: border.right, y: point.y },
+          { x: point.x, y: border.top },
+          { x: point.x, y: border.bottom },
         ];
 
         pointsOnBorder.forEach((borderPoint) => {

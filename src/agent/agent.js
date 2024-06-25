@@ -1,8 +1,8 @@
-import { STATE } from "./common/utils.js";
-import { DragHandler } from "./draghandler.js";
-import { KillSwitch } from "./killswitch.js";
-import { Pathfinder } from "./pathfinder.js";
-import { Sprite } from "./sprite.js";
+import { STATE } from "../common/utils.js";
+import { DragHandler } from "../draghandler.js";
+import { KillSwitch } from "../killswitch.js";
+import { Pathfinder } from "../pathfinder.js";
+import { Sprite } from "../sprite.js";
 
 export class Agent {
   constructor(el, targets) {
@@ -33,7 +33,7 @@ export class Agent {
       }, 2000);
       window.removeEventListener("click", clickListener);
     };
-    window.addEventListener("click", clickListener);
+    // window.addEventListener("click", clickListener);
   }
 
   #moveAlongBorders() {

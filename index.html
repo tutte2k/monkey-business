@@ -9,16 +9,18 @@
   <body>
     <main>
       <div id="nav" class="navbar">
-        <a id="home" onclick="setActive('home')">Home</a>
-        <a id="services" onclick="setActive('services')">Services</a>
-        <a id="about" onclick="setActive('about')">About</a>
-        <a id="contact" onclick="setActive('contact')">Contact</a>
+        <a id="home" onclick="componentLoader.setActive('home')">Home</a>
+        <a id="services" onclick="componentLoader.setActive('services');"
+          >Services</a
+        >
+        <a id="about" onclick="componentLoader.setActive('about')">About</a>
+        <a id="contact" onclick="componentLoader.setActive('contact')"
+          >Contact</a
+        >
       </div>
-      <div class="sidebar" id="sidebar">
-        <!-- Sidebar content will be injected here based on the active navbar item -->
-      </div>
-      <div class="content" id="content">
-        <!--  Content will be injected here based on the active sidebar item -->
+
+      <div class="component-container">
+        <!-- Web component will be injected here based on the active navbar item -->
       </div>
     </main>
     <div class="branch" style="top: 100px"></div>
@@ -31,59 +33,25 @@
     <div class="branch" style="top: 800px"></div>
     <div class="agent" id="agentDiv"></div>
 
-    <style id="component-styles">
-      /* component styles will be injected here based on the active xpontent */
-    </style>
-    <script id="component-script">
-      // component script will be injected here based on the active xpontent
-    </script>
-
     <canvas id="myCanvas"></canvas>
 
+    <script src="./fremwerk/componentloader.js"></script>
     <script>
-      const domParser = new DOMParser();
-      let run;
-
-      async function setActive(section) {
-        document
-          .querySelectorAll(".navbar a")
-          .forEach((a) => a.classList.remove("active"));
-        document.getElementById(`${section}`).classList.add("active");
-
-        const component = await fetch(`./xpontents/${section}/${section}.html`);
-        const [styles, sidebar, content, script] = (
-          await component.text()
-        ).split("&brvbar;");
-
-        const doc = domParser.parseFromString(styles, "text/html");
-        const componentStyles = doc.getElementById("component-styles");
-        document.getElementById("component-styles").remove();
-        document.body.appendChild(componentStyles);
-
-        const parsed = script.replace("<script>", "").replace("<\/script>", "");
-        const scr = document.createElement("script");
-        scr.id = "component-script";
-        scr.textContent = parsed;
-
-        document.getElementById("sidebar").innerHTML = sidebar;
-        const contentArea = document.getElementById("content");
-
-        contentArea.innerHTML = content;
-
-        document.body.appendChild(componentStyles);
-        document.getElementById("component-script").replaceWith(scr);
-
-        run();
-      }
-      setActive("home");
+      const componentLoader = new ComponentLoader();
+      document.addEventListener("DOMContentLoaded", () => {
+        componentLoader.setActive("home");
+      });
     </script>
+    <!-- agent -->
+    <link rel="stylesheet" href="/src/agent/agent.css" />
     <script type="module">
-      import { Agent } from "./src/agent.js";
+      import { Agent } from "./src/agent/agent.js";
       const targets = [...document.querySelectorAll("main *")].sort(
         () => Math.random() - 0.5
       );
-      let currentIndex = 0;
+      const agentDiv = document.getElementById("agentDiv");
       const agent = new Agent(agentDiv, targets);
     </script>
+    <!-- agent -->
   </body>
 </html>

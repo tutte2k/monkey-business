@@ -1,0 +1,71 @@
+#sidebar {
+  background-color: green;
+}
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  height: calc(100% - 50px);
+  overflow: auto;
+  z-index: 1;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: #555;
+  color: white;
+}
+#content-services {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.grid {
+  width: 600px;
+  height: 600px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 5px dashed black;
+}
+.grid div {
+  width: 40px;
+  height: 40px;
+}
+.alien {
+  background: url("./xpontents/services/assets/alien.gif");
+  background-size: cover;
+}
+.player {
+  background: url("./xpontents/services/assets/player.png");
+  background-size: cover;
+}
+.bullet {
+  background: url("./xpontents/services/assets/bullet.png");
+  background-size: cover;
+}
+.boom {
+  background: url("./xpontents/services/assets/boom.png");
+  background-size: cover;
+}
+.dead {
+  background: url("./xpontents/services/assets/dead.png");
+  background-size: cover;
+}
+.deadtext {
+  background: url("./xpontents/services/assets/deadtext.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  justify-content: center;
+}

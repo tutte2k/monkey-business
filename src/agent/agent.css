@@ -1,0 +1,35 @@
+.cloud {
+  position: absolute;
+  background: #eceff1;
+  box-shadow: 10px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.agent {
+  width: 70px;
+  height: 70px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  z-index: 4;
+}
+
+.banana {
+  width: 20px;
+  height: 20px;
+  background-image: url("./assets/banana_ammo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  z-index: 5;
+}

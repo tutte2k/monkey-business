@@ -1,0 +1,3 @@
+(function (shadowRoot) {
+  //
+})(shadowRoot);

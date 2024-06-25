@@ -1,16 +1,16 @@
-import { KillSwitch } from "../killswitch/killswitch.js";
 import { DragHandler } from "./draghandler.js";
 import { Pathfinder } from "./pathfinder.js";
 import { Sprite } from "./sprite.js";
 import { STATE } from "./utils.js";
 
-export class Agent {
-  constructor(el, targets) {
+export class Monkey {
+  constructor(el, targets, onDone) {
     this.el = el;
     this.targets = targets;
     this.state = STATE.HANGING_IDLE;
     this.frameIndex = 0;
     this.intervalId = null;
+    this.onDone = onDone;
 
     this.sprite = new Sprite(el, STATE.HANGING_IDLE);
 
@@ -29,7 +29,6 @@ export class Agent {
       this.#smash();
       window.removeEventListener("click", clickListener);
     };
-    window.addEventListener("click", clickListener);
     this.el.addEventListener("click", () => {
       this.clicked = !this.clicked;
       if (!this.clicked) {
@@ -38,6 +37,7 @@ export class Agent {
         this.#moveAlongBorders();
       }
     });
+    window.addEventListener("click", clickListener);
   }
 
   #smash() {
@@ -61,7 +61,7 @@ export class Agent {
     // console.log("Target Location:", targetLoc);
 
     const agentLoc = this.#getCoords(this.el);
-    // console.log("Agent Location:", agentLoc);
+    // console.log("Monkey Location:", agentLoc);
 
     const borders = this.#getElementBorders(elements);
     // console.log("Borders:", borders);
@@ -202,7 +202,7 @@ export class Agent {
       targetRect,
       agentRect,
       banana,
-      () => new KillSwitch(),
+      () => this.onDone(),
       true
     );
   }
@@ -253,5 +253,5 @@ export class Agent {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = Agent;
+  module.exports = Monkey;
 }

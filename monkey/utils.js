@@ -20,7 +20,7 @@ function getFrames(state, frameCount) {
   const frames = [];
   for (let i = 0; i < frameCount; i++) {
     const img = new Image();
-    img.src = `./agent/sprites/frames/${state}/${state}${i
+    img.src = `./monkey/sprites/frames/${state}/${state}${i
       .toString()
       .padStart(3, "0")}.png`;
     frames.push(img.src);

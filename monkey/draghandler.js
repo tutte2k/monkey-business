@@ -1,7 +1,7 @@
 export class DragHandler {
-  constructor(element, agent) {
+  constructor(element, monkey) {
     this.element = element;
-    this.agent = agent;
+    this.monkey = monkey;
     this.pos1 = 0;
     this.pos2 = 0;
     this.pos3 = 0;
@@ -20,7 +20,7 @@ export class DragHandler {
 
   elementDrag(e) {
     e = e || window.event;
-    this.agent.dragged = true;
+    this.monkey.dragged = true;
     e.preventDefault();
     this.pos1 = this.pos3 - e.clientX;
     this.pos2 = this.pos4 - e.clientY;
@@ -31,7 +31,7 @@ export class DragHandler {
   }
 
   closeDragElement() {
-    this.agent.dragged = false;
+    this.monkey.dragged = false;
     document.onmouseup = null;
     document.onmousemove = null;
   }

@@ -68,7 +68,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  pointer-events: none; /* Make sure the canvas doesn't block interactions */
+  pointer-events: none;
   z-index: 8;
 }
 .branch {

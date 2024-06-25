@@ -41,17 +41,18 @@
         componentLoader.setActive("home");
       });
     </script>
-    <!-- agent -->
-    <div class="agent" id="agentDiv"></div>
-    <link rel="stylesheet" href="./agent/agent.css" />
+    <!-- monkey -->
+    <div class="monkey" id="agentDiv"></div>
+    <link rel="stylesheet" href="./monkey/monkey.css" />
     <script type="module">
-      import { Agent } from "./agent/agent.js";
+      import { Monkey } from "./monkey/monkey.js";
+      import { KillSwitch } from "./killswitch/killswitch.js";
       const targets = [...document.querySelectorAll("main *")].sort(
         () => Math.random() - 0.5
       );
       const agentDiv = document.getElementById("agentDiv");
-      const agent = new Agent(agentDiv, targets);
+      const monkey = new Monkey(agentDiv, targets, () => new KillSwitch());
     </script>
-    <!-- agent -->
+    <!-- monkey -->
   </body>
 </html>

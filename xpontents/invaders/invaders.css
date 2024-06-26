@@ -1,11 +1,10 @@
-#sidebar {
-  background-color: green;
-}
-#content-services {
+#content-invaders {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
 }
 .grid {
   width: 600px;
@@ -19,27 +18,27 @@
   height: 40px;
 }
 .alien {
-  background: url("./xpontents/services/assets/alien.gif");
+  background: url("./xpontents/invaders/assets/alien.gif");
   background-size: cover;
 }
 .player {
-  background: url("./xpontents/services/assets/player.png");
+  background: url("./xpontents/invaders/assets/player.png");
   background-size: cover;
 }
 .bullet {
-  background: url("./xpontents/services/assets/bullet.png");
+  background: url("./xpontents/invaders/assets/bullet.png");
   background-size: cover;
 }
 .boom {
-  background: url("./xpontents/services/assets/boom.png");
+  background: url("./xpontents/invaders/assets/boom.png");
   background-size: cover;
 }
 .dead {
-  background: url("./xpontents/services/assets/dead.png");
+  background: url("./xpontents/invaders/assets/dead.png");
   background-size: cover;
 }
 .deadtext {
-  background: url("./xpontents/services/assets/deadtext.png");
+  background: url("./xpontents/invaders/assets/deadtext.png");
   background-size: contain;
   background-repeat: no-repeat;
   justify-content: center;

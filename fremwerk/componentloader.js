@@ -11,6 +11,7 @@ class ComponentLoader {
 
           connectedCallback() {
             const section = this.getAttribute("section");
+            console.log(section);
             this.loadComponent(section);
           }
 
@@ -43,12 +44,19 @@ class ComponentLoader {
 
             const contentElement = document.createElement("div");
             contentElement.classList.add("content");
+            // contentElement.style.width = "100vw";
+            // contentElement.style.height = "100vh";
             contentElement.innerHTML = content;
             this.shadowRoot.appendChild(contentElement);
-
             try {
-              const runScript = new Function("shadowRoot", script);
-              runScript(this.shadowRoot);
+              const modulescript = new Function(
+                "shadowRoot",
+                `import('/common/explosivebutton.js').then(module => {
+                const ExplosiveButton = module.ExplosiveButton; 
+                (function (shadowRoot) {${script}})(shadowRoot);
+                });`
+              );
+              modulescript(this.shadowRoot);
             } catch (error) {
               console.error("Error executing script:", error);
             }

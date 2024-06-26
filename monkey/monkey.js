@@ -1,3 +1,4 @@
+import { ExplosiveButton } from "../common/explosivebutton.js";
 import { DragHandler } from "./draghandler.js";
 import { Pathfinder } from "./pathfinder.js";
 import { Sprite } from "./sprite.js";
@@ -37,7 +38,7 @@ export class Monkey {
         this.#moveAlongBorders();
       }
     });
-    window.addEventListener("click", clickListener);
+    // window.addEventListener("click", clickListener);
   }
 
   #smash() {
@@ -149,7 +150,8 @@ export class Monkey {
     }
   }
   #onBulletHitTarget(banana, target) {
-    banana.remove();
+    // banana.remove();
+    new ExplosiveButton(banana, true);
     target.remove();
     this.currentIndex++;
     if (this.currentIndex < this.targets.length) {

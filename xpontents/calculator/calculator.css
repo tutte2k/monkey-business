@@ -1,0 +1,213 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: "Audiowide", cursive;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+
+#content-calculator {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(#e90f25, #efc006);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculator-grid {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  min-height: 100vh;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+  background: transparent;
+  z-index: 1;
+}
+
+.calculator-grid > button {
+  cursor: pointer;
+  font-size: 2rem;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.75);
+  background: transparent;
+}
+
+.calculator-grid > button:hover {
+  opacity: 10%;
+}
+
+.span-two {
+  grid-column: span 2;
+}
+
+.output {
+  grid-column: 1 / -1;
+  background-color: rgba(0, 0, 0, 0.206);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 10px;
+  word-wrap: break-word;
+  word-break: break-all;
+  border-radius: 30px;
+  margin-bottom: 10px;
+}
+
+.output .previous-operand {
+  color: white;
+  font-size: 1.5rem;
+  opacity: 50%;
+}
+
+.output .current-operand {
+  color: white;
+  font-size: 2.5rem;
+  opacity: 75%;
+}
+
+.bubbles {
+  position: absolute;
+  bottom: -200px;
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.bubbles span {
+  height: 60px;
+  width: 60px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(5px);
+  animation: move 10s linear infinite;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+@keyframes move {
+  100% {
+    transform: translateY(-90vh);
+  }
+}
+
+.bubbles span.one {
+  animation-delay: 3s;
+  transform: scale(1.5);
+}
+
+.bubbles span.two {
+  animation-delay: 4s;
+  transform: scale(3.5);
+}
+
+.bubbles span.three {
+  animation-delay: 7s;
+  transform: scale(2.5);
+}
+
+.bubbles span.four {
+  animation-delay: 0.2s;
+  transform: scale(0.5);
+}
+
+.bubbles span.five {
+  animation-delay: 3.5s;
+  transform: scale(3.5);
+}
+
+.bubbles span.six {
+  animation-delay: 2.2s;
+  transform: scale(1.5);
+}
+
+.bubbles span.seven {
+  animation-delay: 6s;
+  transform: scale(2.5);
+}
+
+.bubbles span:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 60px;
+  width: 40%;
+  transform: skew(45deg) translateX(150px);
+  background: rgba(255, 255, 255, 0.15);
+  animation: mirror 3s linear infinite;
+}
+
+@keyframes mirror {
+  100% {
+    transform: translatex(-450px);
+  }
+}
+
+.bubbles span.one:before {
+  animation-delay: 1s;
+}
+
+.bubbles span.two:before {
+  animation-delay: 3.5s;
+}
+
+.bubbles span.three:before {
+  animation-delay: 2s;
+}
+
+.bubbles span.four:before {
+  animation-delay: 4.5s;
+}
+
+.bubbles span.five:before {
+  animation-delay: 3s;
+}
+
+.bubbles span.six:before {
+  animation-delay: 4s;
+}
+
+.bubbles span.seven:before {
+  animation-delay: 2.5s;
+}
+
+.exploding,
+.exploding:focus,
+.exploding:hover {
+  background: transparent;
+  color: transparent;
+}
+.exploding {
+  pointer-events: none;
+  position: relative;
+  will-change: transform;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.particle--debris {
+  background: midnightblue;
+}
+.particle--fire {
+  border-radius: 50%;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #17181c;
+  }
+}

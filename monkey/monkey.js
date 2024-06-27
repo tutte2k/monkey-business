@@ -150,8 +150,8 @@ export class Monkey {
     }
   }
   #onBulletHitTarget(banana, target) {
-    // banana.remove();
-    new ExplosiveButton(banana, true);
+    new ExplosiveButton(banana, true, () => banana.remove());
+    banana.style.backgroundImage = "unset";
     target.remove();
     this.currentIndex++;
     if (this.currentIndex < this.targets.length) {
@@ -204,7 +204,9 @@ export class Monkey {
       targetRect,
       agentRect,
       banana,
-      () => this.onDone(),
+      () => {
+        this.onDone();
+      },
       true
     );
   }

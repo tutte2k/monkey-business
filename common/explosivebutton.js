@@ -1,5 +1,5 @@
 export class ExplosiveButton {
-  constructor(el, explodeOnInit = false) {
+  constructor(el, explodeOnInit = false, afterExplode = () => {}) {
     this.element = el;
     this.width = 0;
     this.height = 0;
@@ -14,12 +14,15 @@ export class ExplosiveButton {
     this.updateDimensions();
 
     window.addEventListener("resize", this.updateDimensions.bind(this));
-    explodeOnInit && this.explode(this.duration);
+
+    if (explodeOnInit) {
+      this.explode(this.duration, afterExplode);
+    }
 
     if (document.body.animate)
       this.element.addEventListener(
         "click",
-        this.explode.bind(this, this.duration)
+        this.explode.bind(this, this.duration, afterExplode)
       );
   }
   updateDimensions() {
@@ -30,13 +33,17 @@ export class ExplosiveButton {
     this.pieceWidth = this.width / this.piecesX;
     this.pieceHeight = this.height / this.piecesY;
   }
-  explode(duration) {
+  explode(duration, afterExplode = () => {}) {
     let explodingState = "exploding";
+
     if (!this.element.classList.contains(explodingState)) {
       this.element.classList.add(explodingState);
       this.createParticles("fire", 25, duration);
       this.createParticles("debris", this.piecesX * this.piecesY, duration);
-      setTimeout(() => this.element.classList.remove(explodingState), duration);
+      setTimeout(() => {
+        this.element.classList.remove(explodingState);
+        afterExplode();
+      }, duration);
     }
   }
   createParticles(kind, count, duration) {

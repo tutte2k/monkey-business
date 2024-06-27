@@ -107,52 +107,59 @@
     }
   }
 
-  const numBtns = shadowRoot.querySelectorAll("[data-number]");
-  const opBtns = shadowRoot.querySelectorAll("[data-operation]");
+  import("/common/explosivebutton.js").then((module) => {
+    const ExplosiveButton = module.ExplosiveButton;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/common/explosivebutton.css";
+    shadowRoot.appendChild(link);
+    const numBtns = shadowRoot.querySelectorAll("[data-number]");
+    const opBtns = shadowRoot.querySelectorAll("[data-operation]");
 
-  const eqBtn = shadowRoot.querySelector("[data-equals]");
+    const eqBtn = shadowRoot.querySelector("[data-equals]");
 
-  const delBtn = shadowRoot.querySelector("[data-delete]");
+    const delBtn = shadowRoot.querySelector("[data-delete]");
 
-  const acBtn = shadowRoot.querySelector("[data-all-clear]");
+    const acBtn = shadowRoot.querySelector("[data-all-clear]");
 
-  const prevOpEl = shadowRoot.querySelector("[data-previous-operand]");
-  const currOpEl = shadowRoot.querySelector("[data-current-operand]");
+    const prevOpEl = shadowRoot.querySelector("[data-previous-operand]");
+    const currOpEl = shadowRoot.querySelector("[data-current-operand]");
 
-  const calculator = new Calculator(prevOpEl, currOpEl);
+    const calculator = new Calculator(prevOpEl, currOpEl);
 
-  numBtns.forEach((button) => {
-    new ExplosiveButton(button);
-    button.addEventListener("click", () => {
-      calculator.append(button.innerText);
+    numBtns.forEach((button) => {
+      new ExplosiveButton(button);
+      button.addEventListener("click", () => {
+        calculator.append(button.innerText);
+        calculator.update();
+      });
+    });
+
+    opBtns.forEach((button) => {
+      new ExplosiveButton(button);
+      button.addEventListener("click", () => {
+        calculator.chooseOp(button.innerText);
+        calculator.update();
+      });
+    });
+
+    new ExplosiveButton(eqBtn);
+
+    eqBtn.addEventListener("click", (button) => {
+      calculator.compute();
       calculator.update();
     });
-  });
 
-  opBtns.forEach((button) => {
-    new ExplosiveButton(button);
-    button.addEventListener("click", () => {
-      calculator.chooseOp(button.innerText);
+    new ExplosiveButton(acBtn);
+    acBtn.addEventListener("click", (button) => {
+      calculator.clear();
       calculator.update();
     });
-  });
 
-  new ExplosiveButton(eqBtn);
-
-  eqBtn.addEventListener("click", (button) => {
-    calculator.compute();
-    calculator.update();
-  });
-
-  new ExplosiveButton(acBtn);
-  acBtn.addEventListener("click", (button) => {
-    calculator.clear();
-    calculator.update();
-  });
-
-  new ExplosiveButton(delBtn);
-  delBtn.addEventListener("click", (button) => {
-    calculator.delete();
-    calculator.update();
+    new ExplosiveButton(delBtn);
+    delBtn.addEventListener("click", (button) => {
+      calculator.delete();
+      calculator.update();
+    });
   });
 })(shadowRoot);

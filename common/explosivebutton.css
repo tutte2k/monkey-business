@@ -1,0 +1,26 @@
+.exploding,
+.exploding:focus,
+.exploding:hover {
+  background: transparent;
+  color: transparent;
+}
+.exploding {
+  pointer-events: none;
+  position: relative;
+  will-change: transform;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.particle--debris {
+  background: midnightblue;
+}
+.particle--fire {
+  border-radius: 50%;
+}

@@ -44,18 +44,10 @@ class ComponentLoader {
 
             const contentElement = document.createElement("div");
             contentElement.classList.add("content");
-            // contentElement.style.width = "100vw";
-            // contentElement.style.height = "100vh";
             contentElement.innerHTML = content;
             this.shadowRoot.appendChild(contentElement);
             try {
-              const modulescript = new Function(
-                "shadowRoot",
-                `import('/common/explosivebutton.js').then(module => {
-                const ExplosiveButton = module.ExplosiveButton; 
-                (function (shadowRoot) {${script}})(shadowRoot);
-                });`
-              );
+              const modulescript = new Function("shadowRoot", script);
               modulescript(this.shadowRoot);
             } catch (error) {
               console.error("Error executing script:", error);

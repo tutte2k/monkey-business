@@ -107,7 +107,7 @@
     }
   }
 
-  import("/common/explosivebutton.js").then((module) => {
+  import("./common/explosivebutton.js").then((module) => {
     const ExplosiveButton = module.ExplosiveButton;
     const link = document.createElement("link");
     link.rel = "stylesheet";

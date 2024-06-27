@@ -5,36 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Monkey Business</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./common/explosivebutton.css" />
+    <script src="./fremwerk/componentloader.js"></script>
+    <script>
+      const componentLoader = new ComponentLoader();
+
+      const routes = ["home", "about", "contact", "invaders", "calculator"];
+      const router = (e) => {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+          const route = routes.find((f) => f === hash);
+          const isSame = hash && componentLoader.section === hash;
+          console.log(isSame);
+          if (route) {
+            componentLoader.setActive(route);
+          }
+        } else {
+          componentLoader.setActive("home");
+        }
+      };
+
+      window.addEventListener("hashchange", router);
+      window.addEventListener("load", router);
+    </script>
   </head>
   <body>
     <main>
       <div id="nav" class="navbar">
-        <button id="home" onclick="componentLoader.setActive('home')">
-          Home
-        </button>
-        <button id="about" onclick="componentLoader.setActive('about')">
-          About
-        </button>
-        <button id="contact" onclick="componentLoader.setActive('contact')">
-          Contact
-        </button>
         <button popovertarget="mainpopover" popovertargetaction="toggle">
           Components
           <div id="mainpopover" popover>
             <nav class="listcontainer">
-              <a id="invaders" onclick="componentLoader.setActive('invaders')"
-                >Invaders</a
-              >
-              <a
-                id="calculator"
-                onclick="componentLoader.setActive('calculator')"
-                >Calculator</a
-              >
-              <a>null</a>
-              <a>null</a>
+              <a href="#invaders" id="invaders">Invaders</a>
+              <a href="#calculator" id="calculator">Calculator</a>
             </nav>
           </div>
         </button>
+        <a href="#home" id="home">Home</a>
+        <a href="#about" id="about">About</a>
+        <a href="#contact" id="contact">Contact</a>
       </div>
 
       <div class="component-container">
@@ -50,16 +59,8 @@
     <div class="branch" style="top: 700px"></div>
     <div class="branch" style="top: 800px"></div>
 
-    <canvas id="myCanvas"></canvas>
-    <link rel="stylesheet" href="./common/explosivebutton.css" />
-    <script src="./fremwerk/componentloader.js"></script>
-    <script>
-      const componentLoader = new ComponentLoader();
-      document.addEventListener("DOMContentLoaded", () => {
-        componentLoader.setActive("home");
-      });
-    </script>
     <!-- monkey -->
+    <canvas id="myCanvas"></canvas>
     <div class="monkey" id="agentDiv"></div>
     <link rel="stylesheet" href="./monkey/monkey.css" />
     <script type="module">

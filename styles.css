@@ -1,5 +1,6 @@
 body {
   box-sizing: border-box;
+  top: 0;
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -9,19 +10,26 @@ body {
   overflow: hidden;
 }
 .navbar {
+  position: fixed;
   display: flex;
   align-items: center;
   background-color: #333;
   padding: 10px 20px;
+  top: 0;
+  border-radius: 0 0 10px 0;
+  z-index: 1000; /* Ensure the navbar is always on top */
 }
 
+.navbar a,
 .navbar button {
   color: #fff;
+  font-size: 16px;
   text-decoration: none;
   padding: 10px 15px;
   margin: 0 5px;
   border: none;
-  background: none;
+  background-color: #444;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -31,24 +39,15 @@ body {
   background-color: #555;
 }
 
-.navbar button {
-  background-color: #444;
-  border-radius: 5px;
-}
-
 #mainpopover {
-  position: absolute;
   border: none;
   background-color: #333;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 45px;
-  margin-left: 0px;
-  padding: 10px;
-  width: 348px;
-}
 
-.navbar button[popovertargetaction="toggle"]:hover > #mainpopover {
-  display: block;
+  margin-top: 58px;
+  margin-left: 0px;
+  padding: 10px 20px;
+  width: 129px;
+  border-radius: 0 0 10px 0;
 }
 
 .listcontainer {
@@ -57,9 +56,15 @@ body {
 }
 
 .listcontainer a {
-  padding: 10px;
+  transition: 0.5s display;
   color: #fff;
   text-decoration: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  background-color: #444;
+  border-radius: 10px;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 

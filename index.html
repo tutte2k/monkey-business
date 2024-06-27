@@ -15,8 +15,6 @@
         const hash = window.location.hash.substring(1);
         if (hash) {
           const route = routes.find((f) => f === hash);
-          const isSame = hash && componentLoader.section === hash;
-          console.log(isSame);
           if (route) {
             componentLoader.setActive(route);
           }

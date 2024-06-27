@@ -111,7 +111,7 @@
     const ExplosiveButton = module.ExplosiveButton;
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/common/explosivebutton.css";
+    link.href = "./common/explosivebutton.css";
     shadowRoot.appendChild(link);
     const numBtns = shadowRoot.querySelectorAll("[data-number]");
     const opBtns = shadowRoot.querySelectorAll("[data-operation]");

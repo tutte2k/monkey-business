@@ -12,16 +12,13 @@
 }
 
 .monkey {
-  width: 70px;
-  height: 70px;
-  background-repeat: no-repeat;
-  background-size: contain;
   position: absolute;
-  top: 10px;
-  right: 10px;
   transform: translateX(-50%);
-  border-radius: 50%;
-  z-index: 4;
+  z-index: 2000;
+  img {
+    width: 70px;
+    height: 70px;
+  }
 }
 
 .banana {

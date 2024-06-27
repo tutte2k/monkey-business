@@ -2,18 +2,18 @@ import { ExplosiveButton } from "../common/explosivebutton.js";
 import { DragHandler } from "./draghandler.js";
 import { Pathfinder } from "./pathfinder.js";
 import { Sprite } from "./sprite.js";
-import { STATE } from "./utils.js";
+import { STATES } from "./utils.js";
 
 export class Monkey {
   constructor(el, targets, onDone) {
     this.el = el;
     this.targets = targets;
-    this.state = STATE.HANGING_IDLE;
+    this.state = STATES.HANGING_IDLE;
     this.frameIndex = 0;
     this.intervalId = null;
     this.onDone = onDone;
 
-    this.sprite = new Sprite(el, STATE.HANGING_IDLE);
+    this.sprite = new Sprite(el, STATES.HANGING_IDLE);
 
     new DragHandler(el, this);
 
@@ -30,7 +30,7 @@ export class Monkey {
       this.#smash();
       window.removeEventListener("click", clickListener);
     };
-    this.el.addEventListener("click", () => {
+    this.el.addEventListener("click", (e) => {
       this.clicked = !this.clicked;
       if (!this.clicked) {
         this.#smash();
@@ -131,7 +131,7 @@ export class Monkey {
   #shootBullet() {
     if (this.clicked) throw new Error("monkey sad");
     if (this.currentIndex < this.targets.length) {
-      this.sprite.updateStateTemporarily(STATE.HANGING_THROW);
+      this.sprite.updateStateTemporarily(STATES.HANGING_THROW);
 
       setTimeout(() => {
         const target = this.targets[this.currentIndex];
@@ -187,7 +187,7 @@ export class Monkey {
 
   #startFinalAttack() {
     this.#displayMessage({});
-    this.sprite.updateStateTemporarily(STATE.HANGING_THROW);
+    this.sprite.updateStateTemporarily(STATES.HANGING_THROW);
     const agentRect = this.el.getBoundingClientRect();
     const banana = this.#createBullet(agentRect);
 

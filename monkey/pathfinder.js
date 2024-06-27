@@ -72,7 +72,7 @@ export class Pathfinder {
 }
 export class Debugger {
   constructor() {
-    this.active = false;
+    this.active = true;
   }
   getContext() {
     const canvas = document.getElementById("myCanvas");

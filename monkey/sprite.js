@@ -1,4 +1,5 @@
-import { STATEFRAMES, STATEFRAMESCOUNT } from "./utils.js";
+import { STATEFRAMESCOUNT, imageCache } from "./utils.js";
+
 export class Sprite {
   constructor(elementRef, state) {
     this.elementRef = elementRef;
@@ -27,9 +28,11 @@ export class Sprite {
       } else {
         this.frameIndex = (this.frameIndex + 1) % STATEFRAMESCOUNT[this.state];
       }
-      this.elementRef.style.backgroundImage = `url(${
-        STATEFRAMES[this.state][this.frameIndex]
-      })`;
+      this.elementRef.replaceChildren(
+        imageCache.getImage(this.state, this.frameIndex)
+      );
+
+      console.log();
     }, intervalDuration);
   }
 
@@ -46,6 +49,7 @@ export class Sprite {
     this.state = newState;
   }
 }
+
 if (typeof module !== "undefined") {
   module.exports = Sprite;
 }

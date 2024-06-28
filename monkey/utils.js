@@ -50,5 +50,5 @@ Object.keys(STATES).forEach((key) =>
 );
 
 if (typeof module !== "undefined") {
-  module.exports = { STATE, STATEFRAMES, STATEFRAMESCOUNT, imageCache };
+  module.exports = { STATES, STATEFRAMES, STATEFRAMESCOUNT, imageCache };
 }

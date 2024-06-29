@@ -8,7 +8,7 @@ export class Pathfinder {
 
     let lastPoint = agentLocation;
 
-    const numberOfPoints = 35;
+    const numberOfPoints = 200;
     const pathPoints = [];
 
     function distanceToTarget(point) {

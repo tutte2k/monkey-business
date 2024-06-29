@@ -1,4 +1,4 @@
-import { STATEFRAMESCOUNT, imageCache } from "./utils.js";
+import { DIRECTION, STATEFRAMESCOUNT, imageCache } from "./utils.js";
 
 export class Sprite {
   constructor(elementRef, state) {
@@ -10,6 +10,7 @@ export class Sprite {
     this.tempStateFrames = 0;
     this.prevState = state;
     this.startRotatingImages();
+    this.direction = DIRECTION.LEFT;
   }
 
   startRotatingImages() {
@@ -28,6 +29,12 @@ export class Sprite {
       } else {
         this.frameIndex = (this.frameIndex + 1) % STATEFRAMESCOUNT[this.state];
       }
+
+      const image = imageCache.getImage(this.state, this.frameIndex);
+      this.direction === DIRECTION.RIGHT
+        ? image.classList.add("right")
+        : image.classList.remove("right");
+
       this.elementRef.replaceChildren(
         imageCache.getImage(this.state, this.frameIndex)
       );

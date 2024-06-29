@@ -8,7 +8,7 @@ export class Pathfinder {
 
     let lastPoint = agentLocation;
 
-    const numberOfPoints = 50;
+    const numberOfPoints = 35;
     const pathPoints = [];
 
     function distanceToTarget(point) {
@@ -83,7 +83,7 @@ export class Debugger {
   }
   debugPaths(agentLocation, pathPoints, ctx) {
     if (!this.active) return;
-    console.log("debugPaths");
+    console.log("debugger pathPoints", pathPoints);
 
     ctx.beginPath();
     ctx.moveTo(agentLocation.x, agentLocation.y);
@@ -96,7 +96,7 @@ export class Debugger {
   }
   debugBorders(borders, ctx) {
     if (!this.active) return;
-    console.log("debugBorders");
+    console.log("debugger borders", borders);
     borders.forEach((border) => {
       ctx.strokeStyle = "red";
       ctx.strokeRect(

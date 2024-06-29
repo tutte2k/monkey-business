@@ -18,6 +18,10 @@
   img {
     width: 70px;
     height: 70px;
+    pointer-events: none;
+    &.right {
+      transform: rotateY(180deg);
+    }
   }
 }
 

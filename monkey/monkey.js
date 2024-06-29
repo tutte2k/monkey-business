@@ -2,15 +2,12 @@ import { ExplosiveButton } from "../common/explosivebutton.js";
 import { DragHandler } from "./draghandler.js";
 import { Pathfinder } from "./pathfinder.js";
 import { Sprite } from "./sprite.js";
-import { STATES } from "./utils.js";
+import { DIRECTION, STATES } from "./utils.js";
 
 export class Monkey {
   constructor(el, targets, onDone) {
     this.el = el;
     this.targets = targets;
-    this.state = STATES.HANGING_IDLE;
-    this.frameIndex = 0;
-    this.intervalId = null;
     this.onDone = onDone;
 
     this.sprite = new Sprite(el, STATES.HANGING_IDLE);
@@ -47,29 +44,46 @@ export class Monkey {
       this.#shootBullet();
     }, 2000);
   }
+  #querySelectorAllShadows(selector, el = document.body) {
+    const childShadows = Array.from(el.querySelectorAll("*"))
+      .map((el) => el.shadowRoot)
+      .filter(Boolean);
+
+    const childResults = childShadows.map((child) =>
+      this.#querySelectorAllShadows(selector, child)
+    );
+
+    const result = Array.from(el.querySelectorAll(selector));
+    return result.concat(childResults).flat();
+  }
 
   #moveAlongBorders() {
-    const boundaries = [...document.querySelectorAll("body *")];
-    [1, 2, 3, 4, 5, 6].forEach((removeScriptTags) => boundaries.pop());
-    // console.log("Boundaries:", boundaries);
+    const contentcontainer = [...this.#querySelectorAllShadows(".content *")]
+      .filter(Boolean)
+      .filter((f) => !f.outerHTML.startsWith("<section"))
+      .filter((f) => !f.outerHTML.startsWith("<header"))
+      .filter((f) => !f.outerHTML.startsWith("<form"));
 
-    const elements = boundaries;
+    const bodyContainer = [...document.querySelectorAll("body *")];
+    new Array(6).fill().forEach((_removeNonBoundaries) => bodyContainer.pop());
+    const elements = [...bodyContainer, ...contentcontainer];
+
+    // console.log("Boundaries:", elements);
     const targetElement = elements[Math.floor(Math.random() * elements.length)];
     if (!targetElement) {
       return;
     }
+    this.#moveTowardsTarget(targetElement, elements);
+  }
+  #moveTowardsTarget(targetElement, elements) {
     const targetLoc = this.#getCoords(targetElement);
     // console.log("Target Location:", targetLoc);
-
     const agentLoc = this.#getCoords(this.el);
     // console.log("Monkey Location:", agentLoc);
-
     const borders = this.#getElementBorders(elements);
     // console.log("Borders:", borders);
-
-    const pathPoints = this.pathFinder.findPath(borders, agentLoc, targetLoc);
+    let pathPoints = this.pathFinder.findPath(borders, agentLoc, targetLoc);
     // console.log("Path Points on Borders:", pathPoints);
-
     // console.log("Starting movement along the path");
     let posX = agentLoc.x;
     let posY = agentLoc.y;
@@ -88,6 +102,22 @@ export class Monkey {
       const dx = target.x - posX;
       const dy = target.y - posY;
       const distance = Math.sqrt(dx * dx + dy * dy);
+
+      const isGoingRight = dx > 0;
+      if (isGoingRight) {
+        this.sprite.direction = DIRECTION.RIGHT;
+      } else {
+        this.sprite.direction = DIRECTION.LEFT;
+      }
+
+      const fallDistance = 50;
+      const shouldFall = distance > fallDistance;
+      const shouldHang = distance < fallDistance;
+      if (shouldFall && this.sprite.state === STATES.HANGING_IDLE) {
+        this.sprite.updateState(STATES.FALL);
+      } else if (shouldHang && this.sprite.state === STATES.FALL) {
+        this.sprite.updateState(STATES.HANGING_IDLE);
+      }
 
       if (distance < this.moveSpeed) {
         posX = target.x;

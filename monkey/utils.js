@@ -43,7 +43,7 @@ export const STATEFRAMESPATH = {
   HANGING_THROW: "__monkey_onbranch_throw_",
   FALL: "__monkey_onbranch_fall_",
 };
-
+export const DIRECTION = { LEFT: 0, RIGHT: 1 };
 export const imageCache = new ImageCache();
 Object.keys(STATES).forEach((key) =>
   imageCache.preload(key, STATEFRAMESPATH[key], STATEFRAMESCOUNT[key])

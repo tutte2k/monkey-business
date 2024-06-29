@@ -1,4 +1,6 @@
 #page-content {
   padding: 70px;
   border-bottom: 2px dotted green;
+  overflow: scroll;
+  height: 100vh;
 }

@@ -17,7 +17,7 @@ export class Monkey {
     this.pathFinder = new Pathfinder();
 
     this.throwSpeed = 1500;
-    this.moveSpeed = 2;
+    this.moveSpeed = 1;
 
     this.currentIndex = 0;
 
@@ -35,7 +35,6 @@ export class Monkey {
         this.#moveAlongBorders();
       }
     });
-    // window.addEventListener("click", clickListener);
   }
 
   #smash() {
@@ -58,17 +57,22 @@ export class Monkey {
   }
 
   #moveAlongBorders() {
-    const contentcontainer = [...this.#querySelectorAllShadows(".content *")]
-      .filter(Boolean)
-      .filter((f) => !f.outerHTML.startsWith("<section"))
-      .filter((f) => !f.outerHTML.startsWith("<header"))
-      .filter((f) => !f.outerHTML.startsWith("<form"));
+    const targets = this.targets.concat(
+      this.#querySelectorAllShadows(".content *")
+    );
 
-    const bodyContainer = [...document.querySelectorAll("body *")];
-    new Array(6).fill().forEach((_removeNonBoundaries) => bodyContainer.pop());
-    const elements = [...bodyContainer, ...contentcontainer];
+    const filteredElements = targets.filter((element) => {
+      const excludedIds = ["page-content", "content-invaders"];
+      const excludedClassNames = ["component-container"];
+      const hasExcludedId = excludedIds.includes(element.id);
+      const hasExcludedClass = excludedClassNames.some((className) =>
+        element.classList.contains(className)
+      );
+      return !hasExcludedId && !hasExcludedClass;
+    });
 
-    // console.log("Boundaries:", elements);
+    const elements = filteredElements;
+
     const targetElement = elements[Math.floor(Math.random() * elements.length)];
     if (!targetElement) {
       return;
@@ -76,47 +80,73 @@ export class Monkey {
     this.#moveTowardsTarget(targetElement, elements);
   }
   #moveTowardsTarget(targetElement, elements) {
-    const targetLoc = this.#getCoords(targetElement);
-    // console.log("Target Location:", targetLoc);
-    const agentLoc = this.#getCoords(this.el);
-    // console.log("Monkey Location:", agentLoc);
-    const borders = this.#getElementBorders(elements);
-    // console.log("Borders:", borders);
-    let pathPoints = this.pathFinder.findPath(borders, agentLoc, targetLoc);
-    // console.log("Path Points on Borders:", pathPoints);
-    // console.log("Starting movement along the path");
+    let targetLoc, agentLoc, borders, pathPoints;
+    let lastElementPositions = new Map();
+
+    const haveElementsMoved = () => {
+      for (const element of elements) {
+        const currentLoc = this.#getCoords(element);
+        const lastLoc = lastElementPositions.get(element);
+        if (
+          !lastLoc ||
+          currentLoc.x !== lastLoc.x ||
+          currentLoc.y !== lastLoc.y
+        ) {
+          lastElementPositions.set(element, currentLoc);
+          return true;
+        }
+      }
+      return false;
+    };
+
+    const updatePathAndBorders = () => {
+      targetLoc = this.#getCoords(targetElement);
+      agentLoc = this.#getCoords(this.el);
+      borders = this.#getElementBorders(elements);
+      if (haveElementsMoved()) {
+        pathPoints = this.pathFinder.findPath(borders, agentLoc, targetLoc);
+      }
+    };
+
+    updatePathAndBorders();
+
     let posX = agentLoc.x;
     let posY = agentLoc.y;
     let currentIndex = 0;
+
     const moveDiv = () => {
       if (this.dragged) {
         return;
       }
+
+      updatePathAndBorders();
+
       const isFinished = currentIndex >= pathPoints.length;
       if (isFinished) {
-        this.#moveAlongBorders();
+        this.sprite.updateState(STATES.HANGING_IDLE);
+        setTimeout(() => {
+          this.#moveAlongBorders();
+        }, 1000);
         return;
       }
 
       const target = pathPoints[currentIndex];
+
       const dx = target.x - posX;
       const dy = target.y - posY;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
       const isGoingRight = dx > 0;
-      if (isGoingRight) {
-        this.sprite.direction = DIRECTION.RIGHT;
-      } else {
-        this.sprite.direction = DIRECTION.LEFT;
-      }
+      this.sprite.direction = isGoingRight ? DIRECTION.RIGHT : DIRECTION.LEFT;
 
-      const fallDistance = 50;
+      const fallDistance = 100;
       const shouldFall = distance > fallDistance;
       const shouldHang = distance < fallDistance;
-      if (shouldFall && this.sprite.state === STATES.HANGING_IDLE) {
+
+      if (shouldFall && this.sprite.state !== STATES.FALL) {
         this.sprite.updateState(STATES.FALL);
-      } else if (shouldHang && this.sprite.state === STATES.FALL) {
-        this.sprite.updateState(STATES.HANGING_IDLE);
+      } else if (shouldHang && this.sprite.state !== STATES.HANGING_MOVING) {
+        this.sprite.updateState(STATES.HANGING_MOVING);
       }
 
       if (distance < this.moveSpeed) {
@@ -124,8 +154,20 @@ export class Monkey {
         posY = target.y;
         currentIndex++;
       } else {
-        posX += (dx / distance) * this.moveSpeed;
-        posY += (dy / distance) * this.moveSpeed;
+        const directionX = dx / distance;
+        const directionY = dy / distance;
+
+        posX += directionX * this.moveSpeed;
+        posY += directionY * this.moveSpeed;
+
+        const newDistance = Math.sqrt(
+          Math.pow(target.x - posX, 2) + Math.pow(target.y - posY, 2)
+        );
+        if (newDistance > distance) {
+          posX = target.x;
+          posY = target.y;
+          currentIndex++;
+        }
       }
 
       this.el.style.left = `${posX}px`;

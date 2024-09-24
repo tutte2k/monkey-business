@@ -23,7 +23,6 @@ class ImageCache {
   }
 
   getImage(state, i) {
-    // console.log(`get ${state} ${i} `);
     return this.cache[state] ? this.cache[state][i] : null;
   }
 }
@@ -32,16 +31,19 @@ export const STATES = {
   HANGING_IDLE: "HANGING_IDLE",
   HANGING_THROW: "HANGING_THROW",
   FALL: "FALL",
+  HANGING_MOVING: "HANGING_MOVING",
 };
 export const STATEFRAMESCOUNT = {
   HANGING_IDLE: 20,
   HANGING_THROW: 10,
   FALL: 20,
+  HANGING_MOVING: 10,
 };
 export const STATEFRAMESPATH = {
   HANGING_IDLE: "__monkey_onbranch_idle_",
   HANGING_THROW: "__monkey_onbranch_throw_",
   FALL: "__monkey_onbranch_fall_",
+  HANGING_MOVING: "__monkey_onbranch_moving_",
 };
 export const DIRECTION = { LEFT: 0, RIGHT: 1 };
 export const imageCache = new ImageCache();

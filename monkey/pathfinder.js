@@ -1,20 +1,20 @@
 export class Pathfinder {
   constructor() {
-    this.debugger = new Debugger();
+    console.error(location.oi);
+    this.debugger = new Debugger({
+      enabled: true,
+    });
   }
   findPath(borders, agentLocation, target) {
     const ctx = this.debugger.getContext();
     ctx && this.debugger.debugBorders(borders, ctx);
 
     let lastPoint = agentLocation;
-
-    const numberOfPoints = 200;
     const pathPoints = [];
 
-    function distanceToTarget(point) {
-      return Math.sqrt((point.x - target.x) ** 2 + (point.y - target.y) ** 2);
+    function distanceBetween(point1, point2) {
+      return Math.sqrt((point1.x - point2.x) ** 2 + (point1.y - point2.y) ** 2);
     }
-
     function snapToNearestBorder(point, borders) {
       let nearestPoint = null;
       let minDistance = Infinity;
@@ -34,9 +34,7 @@ export class Pathfinder {
             borderPoint.y >= border.top &&
             borderPoint.y <= border.bottom
           ) {
-            const distance = Math.sqrt(
-              (borderPoint.x - point.x) ** 2 + (borderPoint.y - point.y) ** 2
-            );
+            const distance = distanceBetween(borderPoint, point);
             if (distance < minDistance) {
               minDistance = distance;
               nearestPoint = borderPoint;
@@ -48,10 +46,16 @@ export class Pathfinder {
       return nearestPoint;
     }
 
+    const totalDistance = distanceBetween(agentLocation, target);
+    const distanceFactor = 50;
+    const numberOfPoints = Math.max(
+      Math.floor(totalDistance / distanceFactor),
+      0
+    );
+
     for (let i = 0; i < numberOfPoints; i++) {
       const t = i / (numberOfPoints - 1);
       const x = agentLocation.x + t * (target.x - agentLocation.x);
-
       const y = agentLocation.y + t * (target.y - agentLocation.y);
 
       const randomPoint = { x, y };
@@ -59,7 +63,8 @@ export class Pathfinder {
 
       if (
         snappedPoint &&
-        distanceToTarget(snappedPoint) < distanceToTarget(lastPoint)
+        distanceBetween(snappedPoint, target) <
+          distanceBetween(lastPoint, target)
       ) {
         pathPoints.push(snappedPoint);
         lastPoint = snappedPoint;
@@ -71,8 +76,8 @@ export class Pathfinder {
   }
 }
 export class Debugger {
-  constructor() {
-    this.active = true;
+  constructor({ enabled }) {
+    this.active = enabled;
   }
   getContext() {
     const canvas = document.getElementById("myCanvas");
@@ -83,7 +88,6 @@ export class Debugger {
   }
   debugPaths(agentLocation, pathPoints, ctx) {
     if (!this.active) return;
-    console.log("debugger pathPoints", pathPoints);
 
     ctx.beginPath();
     ctx.moveTo(agentLocation.x, agentLocation.y);
@@ -96,7 +100,6 @@ export class Debugger {
   }
   debugBorders(borders, ctx) {
     if (!this.active) return;
-    console.log("debugger borders", borders);
     borders.forEach((border) => {
       ctx.strokeStyle = "red";
       ctx.strokeRect(
